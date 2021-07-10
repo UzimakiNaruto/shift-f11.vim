@@ -27,8 +27,16 @@ augroup shiftf11
   au BufWritePost * call s:update_when_save(bufname())
   au VimEnter * call s:read_checkpoint()
 augroup end
-nnoremap <silent> <F11> :call <SID>place_sign(bufname(), line('.'), v:true)<cr>
-nnoremap <silent> <F12> :call ShiftF11_fzf_view()<cr> 
+
+nnoremap <silent> <Plug>(shiftf11_sign_place) :call <SID>place_sign(bufname(), line('.'), v:true)<cr>
+nnoremap <silent> <Plug>(shiftf11_view) :call ShiftF11_fzf_view()<cr> 
+
+if !hasmapto('<Plug><shiftf11_sign_place>', 'n')
+  nnoremap <F11> <Plug>(shiftf11_sign_place)
+endif
+if !hasmapto('<Plug>(shiftf11_view)', 'n')
+  nnoremap <S-F11> <Plug>(shiftf11_view)
+endif
 
 function! s:define_sign(sign_name) 
   call sign_define(s:sign_name, {
